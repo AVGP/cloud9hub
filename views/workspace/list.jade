@@ -1,0 +1,10 @@
+extends ../layout
+
+block content
+  h2 Workspaces
+  a(href="/workspace/create") Create workspace
+  ul
+    for workspace in workspaces
+        li
+          a(href="/workspace/" + workspace)= workspace
+  

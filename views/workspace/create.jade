@@ -1,0 +1,9 @@
+extends ../layout
+
+block content
+  h2 Create new Workspace
+  form(method="post", action="/workspace/create")
+    label(for="name") Name of the workspace:
+    input(name="name")
+    button(type="submit") Create
+  
