@@ -26,8 +26,22 @@ It **can't**
 
 right now. These are the next steps for me to build (or you make a Pull Request with the features you want).
 
+##Installation
+First you will need [node.js](http://nodejs.org/), at least v0.8.
+
+**Note, as of June, 12th 2013:** Cloud9 right now breaks when you try installing it with node > 0.8.x :(
+
+Install [Cloud9](https://github.com/ajaxorg/cloud9) into some folder, say ``/var/awesomeness/cloud9``.
+Then install Cloud9hub into the parent folder above your cloud9 installation, so in my example``/var/awesomeness/cloud9hub`.
+Start Cloud9 hub with ``node server``.
+
+##Running as a daemon
+If you wish to, you can run it as a daemon, so that it stays alive.
+
+To do so, I recommend [forever](https://npmjs.org/package/forever).
+
 ##License
-MIT, baby.
+[MIT License](http://opensource.org/licenses/MIT), baby.
 
 ##WARNING
 This is highly insecure, experimental and it may bite.
