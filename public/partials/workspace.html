@@ -1,7 +1,10 @@
 <aside>
   <button ng-click="createWorkspace()">Create new workspace</button>
   <ul class="menu-list">
-    <li ng-repeat="workspace in workspaces" ng-click="runWorkspace(workspace.name)" ng-class="{active: currentWorkspace.name == workspace.name}">{{workspace.name}}</li>
+    <li ng-repeat="workspace in workspaces" ng-class="{active: currentWorkspace.name == workspace.name}">
+      <a href="" title="DELETE this workspace irreversibly!" ng-click="deleteWorkspace(workspace.name)" class="delete">☠</a>
+      <a href="" ng-click="runWorkspace(workspace.name)">{{workspace.name}}</a>
+    </li>
   </ul>
 </aside>
 <iframe class="workspace" src="{{currentWorkspace.url}}"></iframe>

@@ -8,13 +8,31 @@ var WorkspaceCtrl = function($scope, $http, $timeout) {
 
   $scope.createWorkspace = function() {
     var wsName = window.prompt("Enter workspace name", "");
-    $http.post('/workspace/create', {name: wsName})
+    $http.post('/workspace/', {name: wsName})
     .success(function(data) {
-      alert("Success: " + data.msg);
+      alert(data.msg);
       $scope.workspaces.push({name: wsName});
     })
     .error(function(err) {
       alert("Error: " + err.msg);
+    });
+  }
+
+  $scope.deleteWorkspace = function(name) {
+    if(!window.confirm("Do you really want to delete this workspace? All your files in that workspace will be gone forever!")) return;
+    $http.delete('/workspace/' + name)
+    .success(function(data){
+      console.log(data);
+      alert(data.msg);
+      for(var i=0;i<$scope.workspaces.length;i++) {
+        if($scope.workspaces[i].name === name) {
+          $scope.workspaces.splice(i,1);
+          break;
+        }
+      }
+    })
+    .error(function(err) {
+      console.log("ERR:", err);
     });
   }
 

@@ -43,8 +43,9 @@ if ('development' == app.get('env')) {
 
 // API
 app.get('/workspace', workspace.list);
-app.post('/workspace/create', workspace.create);
+app.post('/workspace', workspace.create);
 app.get('/workspace/:name', workspace.run);
+app.delete('/workspace/:name', workspace.destroy);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
