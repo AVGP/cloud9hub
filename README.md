@@ -18,10 +18,10 @@ Right now it can
 * Kill them automatically after 15 minutes
 * List available workspaces
 * Delete workspaces
-
-It **can't**
 * Manage multiple users
 * Do authentication/sessions
+
+It **can't**
 * Sense, that you're active and **not** kill your workspace after 15 minutes.
 
 right now. These are the next steps for me to build (or you make a Pull Request with the features you want).
