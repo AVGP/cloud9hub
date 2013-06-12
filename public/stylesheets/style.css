@@ -1,7 +1,60 @@
+/*
+ * Element definitions
+ */
 body {
-  padding: 50px;
+  box-sizing: border-box;
+  padding: 0;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  height: 100%;
+  background-color: #f0f0f0;
 }
 a {
   color: #00b7ff;
+}
+aside {
+  float: left;
+  min-width: 100px;
+  width: 10%;
+}
+button {
+  background-color: #083;
+  border: outset 1px #0c8;
+  color: #fff;
+  border-radius: 6px;
+  padding: 2px;
+}
+/*
+ * Class definitions
+ */
+.active {
+  font-weight: bold;
+}
+.block {
+  margin-bottom: 1.2em;
+}
+.hint {
+  font-style: oblique;
+  color: #083;
+}
+.menu-list {
+  margin: 0;
+  padding: 0px 0;
+  list-style-type: none;
+}
+.menu-list li {
+  padding: 5px 0px 2px 0px;
+  border-bottom: 1px dashed #083;
+}
+.menu-list li:before {
+  content: "▹";
+  padding-right: 4px;
+}
+.workspace {
+  position: relative;
+  border: none;
+  box-sizing: border-box;
+  min-width: 600px;
+  width: 90%;
+  height: 100%;
+  min-height: 100%;
 }
