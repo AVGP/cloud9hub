@@ -6,6 +6,18 @@ var WorkspaceCtrl = function($scope, $http, $timeout) {
   .success(function(data) { console.log(data); $scope.workspaces = data.workspaces; })
   .error(function(err) { alert(err.msg) });
 
+  $scope.createWorkspace = function() {
+    var wsName = window.prompt("Enter workspace name", "");
+    $http.post('/workspace/create', {name: wsName})
+    .success(function(data) {
+      alert("Success: " + data.msg);
+      $scope.workspaces.push({name: wsName});
+    })
+    .error(function(err) {
+      alert("Error: " + err.msg);
+    });
+  }
+
   $scope.runWorkspace = function(name) {
     console.log(name);
     $http.get('/workspace/' + name).success(function(data) {

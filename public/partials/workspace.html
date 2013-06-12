@@ -1,5 +1,5 @@
 <aside>
-  <button>Create new workspace</button>
+  <button ng-click="createWorkspace()">Create new workspace</button>
   <ul class="menu-list">
     <li ng-repeat="workspace in workspaces" ng-click="runWorkspace(workspace.name)" ng-class="{active: currentWorkspace.name == workspace.name}">{{workspace.name}}</li>
   </ul>
