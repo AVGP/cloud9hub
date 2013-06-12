@@ -12,7 +12,12 @@ var express = require('express')
   , path = require('path')
   , passport = require('passport')
   , GithubStrategy = require('passport-github').Strategy;
-
+try {
+  var config = require(__dirname + '/config.js');
+} catch(e) {
+  console.error("No config.js found! Copy and edit config.example.js to config.js!");
+  process.exit(1);
+}
 
 var app = express();
 
@@ -26,17 +31,20 @@ app.set('baseUrl', 'http://82.196.2.177');
 
 //Auth
 passport.use(new GithubStrategy({
-    clientID: '3909fc1ee9f8ed9e87f2',
-    clientSecret: 'e5b3802ef773d8d32a8b29fe958d04e591be850d',
+    clientID: config.GITHUB_CLIENT_ID,
+    clientSecret: config.GITHUB_CLIENT_SECRET,
     callbackURL: app.get('baseUrl') + ':' + app.get('port') + '/auth/github/callback'
   },
   function(accessToken, refreshToken, profile, done) {
     var username = path.basename(profile.username.toLowerCase());
     console.log(profile);
     if(!fs.existsSync(__dirname + '/workspaces/' + path.basename(username))) {
-      if(!fs.mkdirSync(__dirname + '/workspaces/' + path.basename(username), '0700')) {
+      if(config.PERMITTED_USERS !== false && config.PERMITTED_USERS.indexOf(username)) return done('Sorry, not allowed :(', null);
+
+      //Okay, that is slightly unintuitive: fs.mkdirSync returns "undefined", when successful..
+      if(fs.mkdirSync(__dirname + '/workspaces/' + path.basename(username), '0700') !== undefined) {
         console.log("Okay, shit");
-        return done(err, null);
+        return done("Cannot create user", null);
       } else {
         return done(null, username);
       }
@@ -97,7 +105,6 @@ http.createServer(app).listen(app.get('port'), function(){
 //Helpers
 
 passport.serializeUser(function(user, done) {
-  console.log("SERIALIZE");
   done(null, user);
 });
 

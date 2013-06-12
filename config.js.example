@@ -1,0 +1,6 @@
+exports.GITHUB_CLIENT_ID = '3909fc1ee9f8ed9e87f2';
+exports.GITHUB_CLIENT_SECRET = 'e5b3802ef773d8d32a8b29fe958d04e591be850d';
+// This allows everybody to sign up
+exports.PERMITTED_USERS = false;
+// This restricts signup to the users alice and bob:
+exports.PERMITTED_USERS = ['alice', 'bob'];
