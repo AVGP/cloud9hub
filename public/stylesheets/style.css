@@ -32,6 +32,12 @@ button {
 .block {
   margin-bottom: 1.2em;
 }
+.delete {
+  font-weight: bold;
+  color: #f00;
+  display: inline-block;
+  float: right;
+}
 .hint {
   font-style: oblique;
   color: #083;
