@@ -31,16 +31,17 @@ passport.use(new GithubStrategy({
     callbackURL: app.get('baseUrl') + ':' + app.get('port') + '/auth/github/callback'
   },
   function(accessToken, refreshToken, profile, done) {
+    var username = path.basename(profile.username.toLowerCase());
     console.log(profile);
-    if(!fs.existsSync(__dirname + '/workspaces/' + path.basename(profile.id))) {
-      if(!fs.mkdirSync(__dirname + '/workspaces/' + path.basename(profile.id), '0700')) {
+    if(!fs.existsSync(__dirname + '/workspaces/' + path.basename(username))) {
+      if(!fs.mkdirSync(__dirname + '/workspaces/' + path.basename(username), '0700')) {
         console.log("Okay, shit");
         return done(err, null);
       } else {
-        return done(null, path.basename(profile.id));
+        return done(null, username);
       }
     }
-    return done(null, path.basename(profile.id));
+    return done(null, username);
   }
 ));
 
