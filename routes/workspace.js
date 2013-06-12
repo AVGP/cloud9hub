@@ -8,7 +8,7 @@ var respondInvalidWorkspace = function(res) {
   res.json({msg: "Invalid workspace name"});
 };
 
-var createWorkspace = function(params, res) {
+var createWorkspace = function(params, req, res) {
   var potentiallyBadPathName = params.name.split(path.sep);
   var workspaceName = potentiallyBadPathName[potentiallyBadPathName.length-1];
 
@@ -17,7 +17,7 @@ var createWorkspace = function(params, res) {
     return;
   }
 
-  fs.mkdir(__dirname + '/../workspaces/' + workspaceName, '0700', function(err) {
+  fs.mkdir(__dirname + '/../workspaces/' + req.user + "/" + workspaceName, '0700', function(err) {
     if(err) {
       respondInvalidWorkspace(res);
       return;
@@ -32,7 +32,7 @@ var createWorkspace = function(params, res) {
  */
 exports.create = function(req, res) {
   if(req.body.name) {
-    createWorkspace(req.body, res);
+    createWorkspace(req.body, req, res);
   } else {
     respondInvalidWorkspace(res);
   }
@@ -42,7 +42,7 @@ exports.create = function(req, res) {
  * GET workspaces listing.
  */
 exports.list = function(req, res){
-  fs.readdir(__dirname + '/../workspaces/', function(err, files) {
+  fs.readdir(__dirname + '/../workspaces/' + req.user, function(err, files) {
     if(err) {
       res.status(500);
       res.json({error: err});
@@ -73,7 +73,7 @@ exports.destroy = function(req, res) {
     return;
   }
 
-  rimraf(__dirname + "/../workspaces/" + workspaceName, function(err) {
+  rimraf(__dirname + "/../workspaces/" + req.user + "/" + workspaceName, function(err) {
     console.log(err);
     if(err) {
       res.status("500");
@@ -98,7 +98,7 @@ exports.destroy = function(req, res) {
 
    console.log("Starting " + __dirname + '/../../c9/bin/cloud9.sh for workspace ' + workspaceName + " on port " + req.nextFreePort);
 
-   var workspace = spawn(__dirname + '/../../c9/bin/cloud9.sh', ['-w', __dirname + '/../workspaces/' + workspaceName, '-l', '0.0.0.0', '-p', req.nextFreePort], {detached: true});
+   var workspace = spawn(__dirname + '/../../c9/bin/cloud9.sh', ['-w', __dirname + '/../workspaces/' + req.user + '/' + workspaceName, '-l', '0.0.0.0', '-p', req.nextFreePort], {detached: true});
    workspace.stdout.on('data', function (data) {
      console.log('stdout: ' + data);
    });
