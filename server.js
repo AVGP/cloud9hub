@@ -37,13 +37,11 @@ passport.use(new GithubStrategy({
   },
   function(accessToken, refreshToken, profile, done) {
     var username = path.basename(profile.username.toLowerCase());
-    console.log(profile);
     if(!fs.existsSync(__dirname + '/workspaces/' + path.basename(username))) {
       if(config.PERMITTED_USERS !== false && config.PERMITTED_USERS.indexOf(username)) return done('Sorry, not allowed :(', null);
 
       //Okay, that is slightly unintuitive: fs.mkdirSync returns "undefined", when successful..
       if(fs.mkdirSync(__dirname + '/workspaces/' + path.basename(username), '0700') !== undefined) {
-        console.log("Okay, shit");
         return done("Cannot create user", null);
       } else {
         return done(null, username);

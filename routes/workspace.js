@@ -63,8 +63,6 @@ exports.list = function(req, res){
  * DELETE destroys a workspace
  */
 exports.destroy = function(req, res) {
-  console.log(req.params.name);
-
   var potentiallyBadPathName = req.params.name.split(path.sep);
   var workspaceName = potentiallyBadPathName[potentiallyBadPathName.length-1];
 
@@ -74,7 +72,6 @@ exports.destroy = function(req, res) {
   }
 
   rimraf(__dirname + "/../workspaces/" + req.user + "/" + workspaceName, function(err) {
-    console.log(err);
     if(err) {
       res.status("500");
       res.json({msg: "Something went wrong :("});
@@ -99,16 +96,13 @@ exports.destroy = function(req, res) {
    console.log("Starting " + __dirname + '/../../c9/bin/cloud9.sh for workspace ' + workspaceName + " on port " + req.nextFreePort);
 
    var workspace = spawn(__dirname + '/../../c9/bin/cloud9.sh', ['-w', __dirname + '/../workspaces/' + req.user + '/' + workspaceName, '-l', '0.0.0.0', '-p', req.nextFreePort], {detached: true});
-   workspace.stdout.on('data', function (data) {
-     console.log('stdout: ' + data);
-   });
    workspace.stderr.on('data', function (data) {
      console.log('stdERR: ' + data);
    });
 
    setTimeout(function() {
      process.kill(-workspace.pid, 'SIGTERM');
-     console.log("Killed workspace " + workspaceName);
+     console.info("Killed workspace " + workspaceName);
    }, 900000); //Workspaces have a lifetime of 15 minutes
 
    res.json({msg: "Successfully started workspace", url: req.app.settings.baseUrl + ":" + req.nextFreePort});
