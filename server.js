@@ -28,6 +28,7 @@ app.set('port', 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.set('baseUrl', 'http://82.196.2.177');
+app.set('runningWorkspaces', {});
 
 //Auth
 passport.use(new GithubStrategy({
@@ -66,6 +67,9 @@ app.use(function(req, res, next) {
     console.log(req.path);
     if(/\/workspace\/.+/.test(req.path)) {
         req.nextFreePort = (nextFreeWorkspacePort++);
+        if(nextFreeWorkspacePort > 10000) {
+          nextFreeWorkspacePort = 5000;
+        }
     }
     next();
 });
@@ -94,6 +98,7 @@ app.get('/logout', function(req, res){
 app.get('/workspace', ensureAuthenticated, workspace.list);
 app.post('/workspace', ensureAuthenticated, workspace.create);
 app.get('/workspace/:name', ensureAuthenticated, workspace.run);
+app.post('/workspace/:name/keepalive', ensureAuthenticated, workspace.keepAlive);
 app.delete('/workspace/:name', ensureAuthenticated, workspace.destroy);
 
 http.createServer(app).listen(app.get('port'), function(){
