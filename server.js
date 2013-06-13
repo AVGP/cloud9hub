@@ -64,8 +64,7 @@ app.use(express.session());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(function(req, res, next) {
-    console.log(req.path);
-    if(/\/workspace\/.+/.test(req.path)) {
+    if(/^\/workspace\/[^\/]+\/?$/.test(req.path)) {
         req.nextFreePort = (nextFreeWorkspacePort++);
         if(nextFreeWorkspacePort > 10000) {
           nextFreeWorkspacePort = 5000;
