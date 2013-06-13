@@ -6,6 +6,12 @@ var WorkspaceCtrl = function($scope, $http, $timeout) {
   .success(function(data) { console.log(data); $scope.workspaces = data.workspaces; })
   .error(function(err) { alert(err.msg) });
 
+  var _sendKeepAlive = function() {
+    $http.post('/workspace/' + $scope.currentWorkspace.name + '/keepalive').success(function() {
+      $timeout(_sendKeepAlive, 300000);
+    });
+  };
+
   $scope.createWorkspace = function() {
     var wsName = window.prompt("Enter workspace name", "");
     $http.post('/workspace/', {name: wsName})
@@ -42,7 +48,9 @@ var WorkspaceCtrl = function($scope, $http, $timeout) {
       console.log(data);
       $timeout(function() {
         $scope.currentWorkspace.url = data.url;
+        _sendKeepAlive();
       }, 2000);
+
     }).error(function(err) {
       alert("Error: " + err);
       console.log(err);
