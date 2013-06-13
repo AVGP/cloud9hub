@@ -9,12 +9,12 @@ body
   background-color: rgb(240, 240, 240);
 
 a
-  color: #00B7FF
+  color: #288edf
 
 aside
+  min-width: 200px
+  width: 200px
   float: left
-  min-width: 100px
-  width: 10%
 
 button
   background-color: #083
@@ -33,12 +33,17 @@ button
 .block
   margin-bottom: 1.2em
 
-.delete {
+.centered
+  text-align: center;
+
+.delete
   font-weight: bold;
-  color: red;
+  color: #600;
   display: inline-block;
   float: right;
-}
+  font-size: 1.5em;
+  line-height: 0.75em;
+  baseline-shift: 10em;
 
 .hint
   font-style: oblique
@@ -50,17 +55,16 @@ button
   list-style-type: none
 
 .menu-list li
-  padding: 5px 0px 2px 0px
+  font-weight: bold;
+  padding: 5px 4px 2px 4px
   border-bottom: 1px dashed #083
 .menu-list li:before
   content: "▹"
   padding-right: 4px
 
 .workspace
-  position: relative
   border: none
-  box-sizing: border-box
-  min-width: 600px
-  width: 90%
+
+.workspace-wrapper
+  margin-left: 200px
   height: 100%
-  min-height: 100%
