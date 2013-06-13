@@ -27,6 +27,15 @@ var createWorkspace = function(params, req, res) {
   });
 }
 
+var createWorkspaceKillTimeout = function(workspaceProcess, workspaceName) {
+  var timeout = setTimeout(function() {
+    process.kill(-workspaceProcess.pid, 'SIGTERM');
+    console.info("Killed workspace " + workspaceName);
+   }, 900000); //Workspaces have a lifetime of 15 minutes
+
+   return timeout;
+};
+
 /*
  * POST/GET create a new workspace
  */
@@ -100,10 +109,21 @@ exports.destroy = function(req, res) {
      console.log('stdERR: ' + data);
    });
 
-   setTimeout(function() {
-     process.kill(-workspace.pid, 'SIGTERM');
-     console.info("Killed workspace " + workspaceName);
-   }, 900000); //Workspaces have a lifetime of 15 minutes
+   req.app.get('runningWorkspaces')[req.user + '/' + workspaceName] = {
+     killTimeout: createWorkspaceKillTimeout(workspace, workspaceName),
+     process: workspace,
+     name: workspaceName
+   };
 
    res.json({msg: "Successfully started workspace", url: req.app.settings.baseUrl + ":" + req.nextFreePort});
+ }
+
+/*
+ * POST to keep the workspace alive
+*/
+ exports.keepAlive = function(req, res) {
+   var workspace = req.app.get('runningWorkspaces')[req.user + '/' + req.params.name];
+   clearTimeout(workspace.killTimeout);
+   workspace.killTimeout = createWorkspaceKillTimeout(workspace.process, workspace.name);
+   res.send();
  }
