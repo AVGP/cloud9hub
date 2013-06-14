@@ -40,7 +40,9 @@ If you wish to, you can run it as a daemon, so that it stays alive.
 To do so, I recommend [forever](https://npmjs.org/package/forever).
 
 ##License
-[MIT License](http://opensource.org/licenses/MIT), baby.
+**This project:** [MIT License](http://opensource.org/licenses/MIT), baby.
+
+**Cloud9 itself:** [GPL](http://www.gnu.org/licenses/gpl.html)
 
 ##WARNING
 This is highly insecure, experimental and it may bite.
