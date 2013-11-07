@@ -28,11 +28,17 @@ right now. These are the next steps for me to build (or you make a Pull Request 
 First you will need [node.js](http://nodejs.org/), at least v0.8.
 
 **Note, as of June, 12th 2013:** Cloud9 right now breaks when you try installing it with node > 0.8.x :(
+**Note, this is fixed by installing mercurial
 
 1. Install [Cloud9](https://github.com/ajaxorg/cloud9) into some folder, say ``/var/awesomeness/cloud9``.
+**Note, the cloud9 is currently hardcoded to c9. when cloning cloud9, clone to c9 dir. If this isn't done, hub will crash.
 2. Then install Cloud9Hub into the parent folder above your cloud9 installation, so in my example``/var/awesomeness/cloud9hub`.
 3. Copy the config.js.example file in the cloud9hub root folder to config.js and adjust the settings according to your setup.
+** You will need to create a dev app on git and change the client id/secret for this to work.
 4. Start Cloud9Hub with ``node server``.
+
+##Firewall
+You will need ports 3000 and 5000 to however many connections will be taking place concurrently (each session is given a different port)
 
 ##Running as a daemon
 If you wish to, you can run it as a daemon, so that it stays alive.
