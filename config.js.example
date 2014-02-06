@@ -4,3 +4,4 @@ exports.GITHUB_CLIENT_SECRET = 'e5b3802ef773d8d32a8b29fe958d04e591be850d';
 exports.PERMITTED_USERS = false;
 // This restricts signup to the users alice and bob:
 exports.PERMITTED_USERS = ['alice', 'bob'];
+exports.BASE_URL = 'http://localhost';
