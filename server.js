@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -27,7 +26,7 @@ var nextFreeWorkspacePort = 5000;
 app.set('port', 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
-app.set('baseUrl', 'http://82.196.2.177');
+app.set('baseUrl', config.BASE_URL);
 app.set('runningWorkspaces', {});
 
 //Auth
