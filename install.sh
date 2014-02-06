@@ -6,6 +6,8 @@ echo "-----------------------"
 git clone https://github.com/ajaxorg/cloud9.git c9
 cd c9
 npm install
+npm install bower
+node_modules/bower/bin/bower install
 cd ..
 
 echo "Success."
@@ -13,7 +15,7 @@ echo ""
 echo "Installing Cloud9Hub..."
 echo "-----------------------"
 
-git clone https://github.com/AVGP/cloud9hub.git cloud9hub
+git clone git@github.com:AVGP/cloud9hub.git
 cd cloud9hub
 npm install
 echo "Success."
