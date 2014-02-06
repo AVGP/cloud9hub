@@ -27,15 +27,31 @@ right now. These are the next steps for me to build (or you make a Pull Request 
 ##Installation
 First you will need [node.js](http://nodejs.org/), at least v0.8.
 
-**Note, as of June, 12th 2013:** Cloud9 right now breaks when you try installing it with node > 0.8.x :(
-**Note, this is fixed by installing mercurial
+Then you can try the quick install or the manual way:
 
+### Quick install
+
+```shell
+curl https://raw2.github.com/AVGP/cloud9hub/master/install.sh | sh
+```
+
+This should install Cloud9 and Cloud9Hub into the current folder. If this succeeded, you can now go to the configuration section.
+
+### Manual installation
 1. Install [Cloud9](https://github.com/ajaxorg/cloud9) into some folder, say ``/var/awesomeness/cloud9``.
 **Note, the cloud9 is currently hardcoded to c9. when cloning cloud9, clone to c9 dir. If this isn't done, hub will crash.
-2. Then install Cloud9Hub into the parent folder above your cloud9 installation, so in my example``/var/awesomeness/cloud9hub`.
-3. Copy the config.js.example file in the cloud9hub root folder to config.js and adjust the settings according to your setup.
-** You will need to create a dev app on git and change the client id/secret for this to work.
-4. Start Cloud9Hub with ``node server``.
+2. Then install Cloud9Hub into the parent folder above your cloud9 installation, so in my example``/var/awesomeness/cloud9hub` and run ``npm install``.
+
+# Configuration
+
+First things first: You need a Github application to provide the "Login with Github" feature, which is currently the only login mechanism.
+
+Go to [https://github.com/settings/applications/new](https://github.com/settings/applications/new) and create a new application. Note down the client ID and secret, you'll need them later.
+
+Now copy the ``config.js.example`` to ``config.js`` and edit the contents:
+
+- Add your Github client ID and secret
+- Change your BASE_URL to your server's address (do not include the port!)
 
 ##Firewall
 You will need ports 3000 and 5000 to however many connections will be taking place concurrently (each session is given a different port)
@@ -47,7 +63,6 @@ To do so, I recommend [forever](https://npmjs.org/package/forever).
 
 ##License
 **This project:** [MIT License](http://opensource.org/licenses/MIT), baby.
-
 **Cloud9 itself:** [GPL](http://www.gnu.org/licenses/gpl.html)
 
 ##WARNING
