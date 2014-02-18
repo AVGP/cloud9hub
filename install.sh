@@ -13,7 +13,7 @@ echo ""
 echo "Installing Cloud9Hub..."
 echo "-----------------------"
 
-git clone git@github.com:AVGP/cloud9hub.git
+git clone https://github.com/AVGP/cloud9hub.git cloud9hub
 cd cloud9hub
 npm install
 echo "Success."
