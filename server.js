@@ -11,7 +11,6 @@ var express = require('express')
   , https = require('https')
   , path = require('path')
   , passport = require('passport')
-  , crypto = require('crypto')
   , GithubStrategy = require('passport-github').Strategy;
 try {
   var config = require(__dirname + '/config.js');
