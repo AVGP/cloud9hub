@@ -8,8 +8,10 @@ var express = require('express')
   , fs = require('fs')
   , path = require('path')
   , http = require('http')
+  , https = require('https')
   , path = require('path')
   , passport = require('passport')
+  , crypto = require('crypto')
   , GithubStrategy = require('passport-github').Strategy;
 try {
   var config = require(__dirname + '/config.js');
@@ -99,7 +101,20 @@ app.get('/workspace/:name', ensureAuthenticated, workspace.run);
 app.post('/workspace/:name/keepalive', ensureAuthenticated, workspace.keepAlive);
 app.delete('/workspace/:name', ensureAuthenticated, workspace.destroy);
 
-http.createServer(app).listen(app.get('port'), function(){
+var server;
+
+if (config.SSL && config.SSL.key && config.SSL.cert) {
+  var sslOpts = {
+    key: fs.readFileSync(config.SSL.key),
+    cert: fs.readFileSync(config.SSL.cert)
+  };
+
+  server = https.createServer(sslOpts, app);
+} else {
+  server = http.createServer(app);
+}
+
+server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
 
