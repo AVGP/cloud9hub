@@ -24,7 +24,7 @@ var app = express();
 var nextFreeWorkspacePort = 5000;
 
 // all environments
-app.set('port', 3000);
+app.set('port', 3105);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.set('baseUrl', config.BASE_URL);
