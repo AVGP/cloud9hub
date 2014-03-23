@@ -1,3 +1,5 @@
 workspaces/*
 node_modules
 config.js
+.bower-*/
+public/lib
