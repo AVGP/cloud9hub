@@ -8,5 +8,10 @@
   </ul>
 </aside>
 <div class="workspace-wrapper">
-  <iframe class="workspace" src="{{currentWorkspace.url}}" width="100%" height="100%"></iframe>
+    <header>
+        <h1>Workspace: {{currentWorkspace.name}}</h1>
+    </header>
+    <section class="workspace-bar">
+        <a href="{{currentWorkspace.url}}" class="topcoat-button--large--cta green-button">Start Editing</a>
+    </section>
 </div>

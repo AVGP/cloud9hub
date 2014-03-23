@@ -19,8 +19,11 @@ try {
   process.exit(1);
 }
 
-var app = express();
+// Load configurations
+// Set the node enviornment variable if not set before
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
+var app = express();
 var nextFreeWorkspacePort = 5000;
 
 // all environments

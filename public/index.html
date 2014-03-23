@@ -2,8 +2,8 @@
 <html class="hScope" ng-app="c9hub">
     <head>
         <title>Cloud9Hub</title>
-        <link rel="stylesheet" href="/stylesheets/style.css"/>
         <link rel="stylesheet" href="/lib/topcoat/css/topcoat-desktop-light.min.css"/>
+        <link rel="stylesheet" href="/stylesheets/style.css"/>
     </head>
     <body>
         <div class="frameWrapper" ng-view></div>
@@ -13,5 +13,9 @@
         <script src="/javascripts/workspace/workspaceController.js"></script>
         <script src="/javascripts/workspace/workspaceModule.js"></script>
         <script src="/javascripts/app.js"></script>
+        {% if (process.env.NODE_ENV == 'development') %}
+            <!-- Livereload script rendered -->
+            <script type="text/javascript" src="{{'http://' + req.host + ':35729/livereload.js'}}"></script>
+        {% endif %}
     </body>
 </html>
