@@ -1,0 +1,9 @@
+{
+  "name": "cloud9hub",
+  "version": "0.0.1",
+  "dependencies": {
+    "pushy": "~0.9.1",
+    "angular": "~1.2.15",
+    "topcoat": "~0.8.0"
+  }
+}
