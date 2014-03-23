@@ -1,0 +1,204 @@
+@font-face {
+    font-family: 'Bello Script';
+    src: url('/fonts/bello_script.eot');
+    src: url('/fonts/bello_script.eot?#iefix') format('embedded-opentype'), url('/fonts/bello_script.svg#Bello Script') format('svg'), url('/fonts/bello_script.woff') format('woff'), url('/fonts/bello_script.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*
+ * Element definitions
+ */
+body {
+  box-sizing: border-box;
+  padding: 0;
+  font: 14px source-sans-pro, Helvetica, Arial, sans-serif;
+  height: 100%;
+  background-color: #f0f0f0;
+  line-height: 1.5;
+}
+
+.bello{
+    font-family: 'Bello Script';
+}
+
+a {
+  color: #288edf;
+}
+aside {
+  min-width: 200px;
+  width: 200px;
+  float: left;
+}
+button {
+  background-color: #083;
+  border: outset 1px #0c8;
+  color: #fff;
+  border-radius: 6px;
+  padding: 2px;
+}
+/*
+ * Class definitions
+ */
+.active {
+  font-weight: bold;
+}
+.block {
+  margin-bottom: 1.2em;
+}
+.centered {
+  text-align: center;
+}
+
+.delete {
+  display: inline-block;
+  float: right;
+  cursor: pointer;
+  
+  i{
+    position: relative;
+    left: 2px;
+  }
+  
+  &:hover i{
+    opacity: 1;
+  }
+}
+
+.frameWrapper {
+  height: 100%;
+}
+.hint {
+  font-style: oblique;
+  color: #083;
+}
+.hScope {
+  height: 100%;
+}
+
+.menu-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.menu-list li {
+  font-weight: 300;
+  font-size: 1rem;
+  padding: 1.5rem 1rem;
+  border-top: 1px solid #dadada;
+  border-bottom: 1px solid #dadada;
+  cursor: pointer;
+  
+  transition: background-color 0.25s ease;
+  -moz-transition: background-color 0.25s ease;
+  -webkit-transition: background-color 0.25s ease;
+  
+  i{
+    opacity: 0.2;
+  }
+  
+  &:hover{
+      background: #ddd;
+  }
+  
+  &:hover i{
+    opacity: 0.6;
+  }
+}
+
+.workspace {
+  border: none;
+}
+
+.workspace-wrapper {
+  margin-left: 200px;
+  height: 100%;
+  padding: 1rem;
+  background: #F4F4F4;
+  border-left: 7px solid #fafafa;
+}
+
+.green-button{
+    pointer: cursor;
+    background-color: #1F9A3D;
+    
+    &:hover{
+        background-color: #3FBA5D;
+    }
+}
+
+.workspace-bar{
+    background-color: #555;
+    border-top: 5px solid #555;
+    border-bottom: 5px solid #444;
+    padding: 1rem;
+    margin: 0rem -1rem 2rem -1rem;
+}
+
+header{
+    position: relative;
+    margin-top: -1rem;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding: 1rem;
+    background: #fafafa;
+  
+    h1 {
+        font-weight: 100;
+        margin: 10px 0 15px;
+        font-size: 2rem;
+        position: relative;
+        display: inline-block;
+        padding-right: 10px;
+        color: #333;
+    }
+}
+
+.loading-overlay{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(20,20,20,0.9);
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 300;
+    text-align: center;
+    
+    span{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -73px;
+        margin-top: -18px;
+    }
+}
+
+.no-workspace{
+    h1{
+        font-size: 3rem;
+        margin: 0 0 1rem 0;
+    }
+    
+    .block{
+        font-size: 1rem;
+    }
+}
+
+label{
+    display: block;
+    color: #555;
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+}
+
+.login-title{
+    font-size: 4rem;
+}
+
+.login-button{
+    font-size: 1.25rem;
+    padding: 1rem;
+}
