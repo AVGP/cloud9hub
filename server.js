@@ -13,6 +13,7 @@ var express = require('express')
   , path = require('path')
   , passport = require('passport')
   , flash = require('connect-flash')
+  , helpers = require('view-helpers')
   , consolidate = require('consolidate')
   , GithubStrategy = require('passport-github').Strategy;
 try {
@@ -85,7 +86,8 @@ app.use(express.session());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-
+// Dynamic helpers
+app.use(helpers('Cloud9Hub'));
 app.use(function(req, res, next) {
     if(/^\/workspace\/[^\/]+\/?$/.test(req.path)) {
         req.nextFreePort = (nextFreeWorkspacePort++);
@@ -96,7 +98,6 @@ app.use(function(req, res, next) {
     next();
 });
 app.use(app.router);
-app.use(require('stylus').middleware(__dirname + '/public'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // development only

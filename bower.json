@@ -4,6 +4,7 @@
   "dependencies": {
     "angular": "~1.2.15",
     "topcoat": "~0.8.0",
-    "angular-route": "~1.2.15"
+    "angular-route": "~1.2.15",
+    "fontawesome": "~4.0.3"
   }
 }

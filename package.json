@@ -16,11 +16,13 @@
     "grunt-contrib-watch": "~0.6.1",
     "grunt-env": "~0.4.1",
     "grunt-nodemon": "~0.2.1",
+    "grunt-sass": "^0.11.0",
     "jade": "*",
     "passport": "0.1.17",
     "passport-github": "0.1.5",
     "rimraf": "2.1.4",
     "stylus": "*",
-    "swig": "^1.3.2"
+    "swig": "^1.3.2",
+    "view-helpers": "^0.1.4"
   }
 }

@@ -5,22 +5,30 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         watch: {
+            options: {
+                livereload: true,
+            },
             js: {
-                files: ['gruntfile.js', 'config.js', 'server.js', 'routes/*.js', 'public/javascripts/**'],
-                options: {
-                    livereload: true,
-                },
+                files: ['gruntfile.js', 'config.js', 'server.js', 'controllers/**', 'routes/**', 'public/js/**']
             },
             html: {
-                files: ['views/**', 'public/*.html', 'public/partials/**'],
-                options: {
-                    livereload: true,
-                },
+                files: ['views/**', 'public/*.html', 'public/partials/**']
             },
             css: {
-                files: ['public/stylesheets/**'],
+                files: ['public/css/**']
+            },
+            sass: {
+                files: ['public/scss/**'],
+                tasks: ['sass'],
                 options: {
-                    livereload: true
+                    livereload: false
+                }
+            }
+        },
+        sass: {
+            dist: {
+                files: {
+                    'public/css/style.css': 'public/scss/style.scss'
                 }
             }
         },
@@ -52,10 +60,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-concurrent');
+    grunt.loadNpmTasks('grunt-sass');
 
     //Making grunt default to force in order not to break the project.
     grunt.option('force', true);
 
     //Default task(s).
-    grunt.registerTask('default', ['concurrent']);
+    grunt.registerTask('default', ['sass', 'concurrent']);
 };
