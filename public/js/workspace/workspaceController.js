@@ -36,7 +36,9 @@ var WorkspaceCtrl = function($scope, $http, $timeout, $sce) {
   
   $scope.saveWorkspace = function(){
     $scope.iframeSrc = '';
-    createWorkspace();  
+    if(!$scope.currentWorkspace.url){
+        createWorkspace();  
+    }
   };
  
   $scope.blankWorkspace = function() {
