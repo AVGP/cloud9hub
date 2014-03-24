@@ -98,33 +98,74 @@ exports.destroy = function(req, res) {
  exports.run = function(req, res) {
   var potentiallyBadPathName = req.params.name.split(path.sep);
   var workspaceName = potentiallyBadPathName[potentiallyBadPathName.length-1];
+  
+    var isPortTaken = function(port, fn) {
+      console.log('checking if port', port, 'is taken');
+      var net = require('net')
+      var tester = net.createServer()
+      .once('error', function (err) {
+        if (err.code != 'EADDRINUSE') return fn(err)
+        console.log('port', port, 'seems to be taken');
+        fn(null, true)
+      })
+      .once('listening', function() {
+        tester.once('close', function() { 
+            console.log('port', port, 'seems to be available');
+            fn(null, false) 
+        })
+        .close()
+      })
+      .listen(port)
+    };
+    
+    var getNextAvailablePort = function(callback){
+        var nextFreeWorkspacePort = req.app.get('nextFreeWorkspacePort');
+        
+        if(nextFreeWorkspacePort > 10000) {
+            nextFreeWorkspacePort = 5000;
+        }
+        
+        nextFreeWorkspacePort = nextFreeWorkspacePort + 1;
+        console.log('setting nextFreeWorkspacePort to', nextFreeWorkspacePort);
+        req.app.set('nextFreeWorkspacePort', nextFreeWorkspacePort);
+        
+        isPortTaken(nextFreeWorkspacePort, function(err, taken){
+            if(taken){
+                getNextAvailablePort(callback);
+            } else {
+                req.app.set('nextFreeWorkspacePort', nextFreeWorkspacePort);
+                callback(nextFreeWorkspacePort);
+            }
+        });
+    };
 
-  if(workspaceName === '..') {
-    respondInvalidWorkspace(res);
-    return;
-  }
+    if(workspaceName === '..') {
+      respondInvalidWorkspace(res);
+      return;
+    }
 
    if(typeof req.app.get('runningWorkspaces')[req.user + '/' + workspaceName] === 'undefined'){
-       console.log("Starting " + __dirname + '/../../c9/bin/cloud9.sh for workspace ' + workspaceName + " on port " + req.nextFreePort);
+       getNextAvailablePort(function(nextFreePort){
+            console.log("Starting " + __dirname + '/../../c9/bin/cloud9.sh for workspace ' + workspaceName + " on port " + nextFreePort);
        
-       var workspace = spawn(__dirname + '/../../c9/bin/cloud9.sh', ['-w', __dirname + '/../workspaces/' + req.user + '/' + workspaceName, '-l', '0.0.0.0', '-p', req.nextFreePort], {detached: true});
-       workspace.stderr.on('data', function (data) {
-         console.log('stdERR: ' + data);
+            var workspace = spawn(__dirname + '/../../c9/bin/cloud9.sh', ['-w', __dirname + '/../workspaces/' + req.user + '/' + workspaceName, '-l', '0.0.0.0', '-p', nextFreePort], {detached: true});
+            workspace.stderr.on('data', function (data) {
+                console.log('stdERR: ' + data);
+            });
+           
+            req.app.get('runningWorkspaces')[req.user + '/' + workspaceName] = {
+                killTimeout: createWorkspaceKillTimeout(req, workspace, workspaceName),
+                process: workspace,
+                name: workspaceName,
+                url: req.app.settings.baseUrl + ":" + nextFreePort,
+                user: req.user
+            };
+           
+            res.json({msg: "Attempted to start workspace", user: req.user, url: req.app.settings.baseUrl + ":" + nextFreePort}); 
        });
-       
-       req.app.get('runningWorkspaces')[req.user + '/' + workspaceName] = {
-         killTimeout: createWorkspaceKillTimeout(req, workspace, workspaceName),
-         process: workspace,
-         name: workspaceName,
-         url: req.app.settings.baseUrl + ":" + req.nextFreePort,
-         user: req.user
-       };
-       
-       res.json({msg: "Attempted to start workspace", user: req.user, url: req.app.settings.baseUrl + ":" + req.nextFreePort});
    } else {
-       console.log("Found running workspace", req.app.settings.baseUrl + ":" + req.nextFreePort);
-       
-       res.json({msg: "Found running workspace", user: req.user, url: req.app.settings.baseUrl + ":" + req.nextFreePort});
+       console.log("Found running workspace", req.app.get('runningWorkspaces')[req.user + '/' + workspaceName].url);
+       res.json({msg: "Found running workspace", user: req.user, url: req.app.get('runningWorkspaces')[req.user + '/' + workspaceName].url});
    }
    
  }

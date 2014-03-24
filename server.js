@@ -35,7 +35,7 @@ app.locals.cache = 'memory';
 // Prettify HTML
 app.locals.pretty = true;
 
-var nextFreeWorkspacePort = 5000;
+app.set('nextFreeWorkspacePort', 5000);
 
 app.engine('html', consolidate.swig);
 
@@ -88,15 +88,6 @@ app.use(passport.session());
 app.use(flash());
 // Dynamic helpers
 app.use(helpers('Cloud9Hub'));
-app.use(function(req, res, next) {
-    if(/^\/workspace\/[^\/]+\/?$/.test(req.path)) {
-        req.nextFreePort = (nextFreeWorkspacePort++);
-        if(nextFreeWorkspacePort > 10000) {
-          nextFreeWorkspacePort = 5000;
-        }
-    }
-    next();
-});
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
