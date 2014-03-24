@@ -104,7 +104,13 @@ exports.destroy = function(req, res) {
 
    console.log("Starting " + __dirname + '/../../c9/bin/cloud9.sh for workspace ' + workspaceName + " on port " + req.nextFreePort);
 
-   var workspace = spawn(__dirname + '/../../c9/bin/cloud9.sh', ['-w', __dirname + '/../workspaces/' + req.user + '/' + workspaceName, '-l', '0.0.0.0', '-p', req.nextFreePort], {detached: true});
+   var workspace = spawn(__dirname + '/../../c9/bin/cloud9.sh', [
+     '-w', __dirname + '/../workspaces/' + req.user + '/' + workspaceName,
+     '-l', '0.0.0.0',
+     '-p', req.nextFreePort,
+     '--username', req.query['username'],
+     '--password', req.query['password']
+   ], {detached: true});
    workspace.stderr.on('data', function (data) {
      console.log('stdERR: ' + data);
    });
