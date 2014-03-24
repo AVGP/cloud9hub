@@ -145,7 +145,7 @@ a {
 
 .workspace-wrapper {
   height: 100%;
-  padding: 1em;
+  padding: 0 1em;
   background: #FFF;
 }
 
@@ -235,6 +235,11 @@ header{
     margin-left: -291.5px;
 }
 
+.login-col{
+    width: 583px;
+    height: 171px;
+}
+
 .login-title{
     font-size: 6rem;
     font-weight: normal;
@@ -248,7 +253,7 @@ header{
 .workspace-iframe{
     height: 100%;
     padding: 0;
-    margin: -1rem;
+    margin: 0 -1em;
 }
 
 .panel{

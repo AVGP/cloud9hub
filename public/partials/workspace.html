@@ -35,7 +35,7 @@
                 <h1><span ng-hide="!currentWorkspace.user">{{currentWorkspace.user}}&nbsp;/&nbsp;</span>{{currentWorkspace.name}}</h1>
             </header>
             <section class="workspace-bar" ng-hide="!currentWorkspace.url">
-                <a ng-click="startEditing()" class="btn btn-lg btn-success">Start Editing</a>
+                <a ng-click="startEditing()" class="btn btn-success">Start Editing</a>
             </section>
             <section class='workspace-form'>
                 <div class="form-group">
@@ -43,7 +43,7 @@
     	        	<input type="text" placeholder="Inactive" class="form-control" value="{{currentWorkspace.name}}" ng-model="currentWorkspace.name" placeholder="name" />
             	</div>
             </section>
-            <section class='workspace-form-footer'>
+            <section class='workspace-form-footer' ng-hide="currentWorkspace.url">
                 <button class="btn btn-lg btn-default" ng-click="saveWorkspace()"><i class='fa fa-save'></i>&nbsp;Save</button>
             </section>
         </section>
