@@ -157,7 +157,8 @@ header {
     margin-top: -18px; }
 
 .no-workspace h1 {
-  font-size: 3rem;
+  font-weight: normal;
+  font-size: 3.5rem;
   margin: 0 0 1rem 0; }
 .no-workspace .block {
   font-size: 1rem; }
@@ -169,7 +170,8 @@ label {
   margin-bottom: 0.25rem; }
 
 .login-title {
-  font-size: 5rem;
+  font-size: 6rem;
+  font-weight: normal;
   margin-bottom: 1rem; }
 
 .login-button {
@@ -183,5 +185,5 @@ label {
 
 .panel {
   padding: 2rem;
-  background: #eaeaea;
+  background: #efefef;
   margin: 0 -1rem; }
