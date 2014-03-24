@@ -1,1 +1,0 @@
-{"ts":1395698019053,"silentsave":true,"restoring":false,"patch":[[{"diffs":[[1,"var workspace = angular.module('workspace', []);\n\nworkspace.controller('WorkspaceCtrl', ['$scope', '$http', '$timeout', WorkspaceCtrl]);"]],"start1":0,"start2":0,"length1":0,"length2":136}]],"length":136}
