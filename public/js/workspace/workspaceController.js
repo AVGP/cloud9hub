@@ -57,15 +57,19 @@ var WorkspaceCtrl = function($scope, $http, $timeout, $sce) {
     .success(function(data){
       console.log(data);
       alert(data.msg);
+      
       for(var i=0;i<$scope.workspaces.length;i++) {
         if($scope.workspaces[i].name === name) {
           $scope.workspaces.splice(i,1);
           break;
         }
       }
+      
+      $scope.currentWorkspace = false;
     })
     .error(function(err) {
       console.log("ERR:", err);
+      $scope.currentWorkspace = false;
     });
   }
   
