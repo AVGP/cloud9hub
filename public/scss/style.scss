@@ -85,21 +85,28 @@ button {
 .menu-list li {
   font-weight: 300;
   font-size: 1rem;
-  padding: 1.5rem 1rem;
+  padding: 1rem 0.75rem;
   border-top: 1px solid #dadada;
-  border-bottom: 1px solid #dadada;
   cursor: pointer;
   
   transition: background-color 0.25s ease;
   -moz-transition: background-color 0.25s ease;
   -webkit-transition: background-color 0.25s ease;
   
+  span{
+      font-size: 0.85rem;
+  }
+  
   i{
     opacity: 0.2;
   }
   
+  &:last-child{
+      border-bottom: 1px solid #dadada;
+  }
+  
   &:hover{
-      background: #ddd;
+      background: #eaeaea;
   }
   
   &:hover i{
@@ -130,10 +137,17 @@ button {
 
 .workspace-bar{
     background-color: #555;
-    border-top: 5px solid #555;
-    border-bottom: 5px solid #444;
+    border-top: 1px solid #333;
+    border-bottom: 4px solid #444;
     padding: 1rem;
     margin: 0rem -1rem 2rem -1rem;
+}
+
+.workspace-form-footer{
+    border-top: 1px dotted #ccc;
+    padding-top: 1rem;
+    margin-top: 2rem;
+    text-align: right;
 }
 
 header{
@@ -142,7 +156,7 @@ header{
     margin-left: -1rem;
     margin-right: -1rem;
     padding: 1rem;
-    background: #fafafa;
+    background: #fdfdfd;
   
     h1 {
         font-weight: 100;
@@ -152,6 +166,10 @@ header{
         display: inline-block;
         padding-right: 10px;
         color: #333;
+        
+        span{
+            color: #aaa;
+        }
     }
 }
 
@@ -161,7 +179,7 @@ header{
     position: absolute;
     top: 0;
     left: 0;
-    background: rgba(20,20,20,0.9);
+    background: rgba(20,20,20,0.75);
     color: #fff;
     font-size: 2rem;
     font-weight: 300;
@@ -195,10 +213,23 @@ label{
 }
 
 .login-title{
-    font-size: 4rem;
+    font-size: 5rem;
+    margin-bottom: 1rem;
 }
 
 .login-button{
     font-size: 1.25rem;
     padding: 1rem;
+}
+
+.workspace-iframe{
+    height: 100%;
+    padding: 0;
+    margin: -1rem;
+}
+
+.panel{
+    padding: 2rem;
+    background: #eaeaea;
+    margin: 0 -1rem;
 }

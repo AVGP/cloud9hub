@@ -1,7 +1,8 @@
-var WorkspaceCtrl = function($scope, $http, $timeout) {
+var WorkspaceCtrl = function($scope, $http, $timeout, $sce) {
   $scope.workspaces = [];
   $scope.currentWorkspace = false; // {name: null, url: null, editing: false};
   $scope.loadingWorkspace = false;
+  $scope.iframeSrc = '';
 
   $http.get('/workspace')
   .success(function(data) { console.log(data); $scope.workspaces = data.workspaces; })
@@ -14,22 +15,41 @@ var WorkspaceCtrl = function($scope, $http, $timeout) {
   };
   
   $scope.startEditing = function() {
-    $scope.currentWorkspace.editing = true;  
+    $scope.currentWorkspace.editing = true;
+    $scope.iframeSrc = $sce.trustAsResourceUrl($scope.currentWorkspace.url);
   };
 
-  $scope.createWorkspace = function() {
-    var wsName = window.prompt("Enter workspace name", "");
+  var createWorkspace = function() {
+    var wsName = $scope.currentWorkspace.name;
+    $scope.loadingWorkspace = true;
     $http.post('/workspace/', {name: wsName})
     .success(function(data) {
-      alert(data.msg);
+      // alert(data.msg);
+      $scope.loadingWorkspace = false;
       $scope.workspaces.push({name: wsName});
+      $scope.currentWorkspace = false;
     })
     .error(function(err) {
       alert("Error: " + err.msg);
     });
-  }
+  } 
+  
+  $scope.saveWorkspace = function(){
+    $scope.iframeSrc = '';
+    createWorkspace();  
+  };
+ 
+  $scope.blankWorkspace = function() {
+    $scope.iframeSrc = '';
+    $scope.currentWorkspace = {
+        url: '',
+        name: '',
+        editing: false
+    }
+  };
 
   $scope.deleteWorkspace = function(name) {
+    $scope.iframeSrc = '';
     if(!window.confirm("Do you really want to delete this workspace? All your files in that workspace will be gone forever!")) return;
     $http.delete('/workspace/' + name)
     .success(function(data){
@@ -48,17 +68,17 @@ var WorkspaceCtrl = function($scope, $http, $timeout) {
   }
   
   $scope.runWorkspace = function(name) {
+    $scope.iframeSrc = '';
     $scope.loadingWorkspace = true;
     $http.get('/workspace/' + name).success(function(data) {
-      $timeout(function() {
+        console.log('data', data);
         $scope.currentWorkspace = {};
         $scope.currentWorkspace.name = name;
         $scope.currentWorkspace.url = data.url;
+        $scope.currentWorkspace.user = data.user;
         $scope.currentWorkspace.editing = false;
         _sendKeepAlive();
         $scope.loadingWorkspace = false;
-      }, 2000);
-
     }).error(function(err) {
         $scope.loadingWorkspace = false;
         alert("Error: " + err);

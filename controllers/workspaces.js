@@ -1,6 +1,7 @@
 var fs = require('fs'),
   path = require('path'),
   rimraf = require('rimraf'),
+  _ = require('lodash'),
   spawn = require('child_process').spawn;
 
 var respondInvalidWorkspace = function(res) {
@@ -27,9 +28,10 @@ var createWorkspace = function(params, req, res) {
   });
 }
 
-var createWorkspaceKillTimeout = function(workspaceProcess, workspaceName) {
+var createWorkspaceKillTimeout = function(req, workspaceProcess, workspaceName) {
   var timeout = setTimeout(function() {
     process.kill(-workspaceProcess.pid, 'SIGTERM');
+    req.app.get('runningWorkspaces')[req.user + '/' + workspaceName] = undefined;
     console.info("Killed workspace " + workspaceName);
    }, 900000); //Workspaces have a lifetime of 15 minutes
 
@@ -102,20 +104,29 @@ exports.destroy = function(req, res) {
     return;
   }
 
-   console.log("Starting " + __dirname + '/../../c9/bin/cloud9.sh for workspace ' + workspaceName + " on port " + req.nextFreePort);
-
-   var workspace = spawn(__dirname + '/../../c9/bin/cloud9.sh', ['-w', __dirname + '/../workspaces/' + req.user + '/' + workspaceName, '-l', '0.0.0.0', '-p', req.nextFreePort], {detached: true});
-   workspace.stderr.on('data', function (data) {
-     console.log('stdERR: ' + data);
-   });
-
-   req.app.get('runningWorkspaces')[req.user + '/' + workspaceName] = {
-     killTimeout: createWorkspaceKillTimeout(workspace, workspaceName),
-     process: workspace,
-     name: workspaceName
-   };
-
-   res.json({msg: "Successfully started workspace", url: req.app.settings.baseUrl + ":" + req.nextFreePort});
+   if(typeof req.app.get('runningWorkspaces')[req.user + '/' + workspaceName] === 'undefined'){
+       console.log("Starting " + __dirname + '/../../c9/bin/cloud9.sh for workspace ' + workspaceName + " on port " + req.nextFreePort);
+       
+       var workspace = spawn(__dirname + '/../../c9/bin/cloud9.sh', ['-w', __dirname + '/../workspaces/' + req.user + '/' + workspaceName, '-l', '0.0.0.0', '-p', req.nextFreePort], {detached: true});
+       workspace.stderr.on('data', function (data) {
+         console.log('stdERR: ' + data);
+       });
+       
+       req.app.get('runningWorkspaces')[req.user + '/' + workspaceName] = {
+         killTimeout: createWorkspaceKillTimeout(req, workspace, workspaceName),
+         process: workspace,
+         name: workspaceName,
+         url: req.app.settings.baseUrl + ":" + req.nextFreePort,
+         user: req.user
+       };
+       
+       res.json({msg: "Attempted to start workspace", user: req.user, url: req.app.settings.baseUrl + ":" + req.nextFreePort});
+   } else {
+       console.log("Found running workspace", req.app.settings.baseUrl + ":" + req.nextFreePort);
+       
+       res.json({msg: "Found running workspace", user: req.user, url: req.app.settings.baseUrl + ":" + req.nextFreePort});
+   }
+   
  }
 
 /*
@@ -124,6 +135,6 @@ exports.destroy = function(req, res) {
  exports.keepAlive = function(req, res) {
    var workspace = req.app.get('runningWorkspaces')[req.user + '/' + req.params.name];
    clearTimeout(workspace.killTimeout);
-   workspace.killTimeout = createWorkspaceKillTimeout(workspace.process, workspace.name);
+   workspace.killTimeout = createWorkspaceKillTimeout(req, workspace.process, workspace.name);
    res.send();
  }
