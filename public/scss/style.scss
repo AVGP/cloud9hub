@@ -10,12 +10,30 @@
  * Element definitions
  */
 body {
-  box-sizing: border-box;
   padding: 0;
-  font: 14px source-sans-pro, Helvetica, Arial, sans-serif;
+  // font-family: source-sans-pro, Helvetica, Arial, sans-serif;
   height: 100%;
-  background-color: #f0f0f0;
-  line-height: 1.5;
+  background-color: #ECF0F1;
+}
+
+.container{
+    width: 100%;
+}
+
+.dashboard-row{
+    height: 100%;
+}
+
+aside{
+    padding: 15px 15px 15px 15px;
+    background: #34495E;
+    color: #fff;
+    height: 100%;
+    
+    h1{
+        text-align:center;
+        margin-top: 0;
+    }
 }
 
 .bello{
@@ -25,18 +43,15 @@ body {
 a {
   color: #288edf;
 }
-aside {
-  min-width: 200px;
-  width: 200px;
-  float: left;
-}
-button {
+
+/*button {
   background-color: #083;
   border: outset 1px #0c8;
   color: #fff;
   border-radius: 6px;
   padding: 2px;
-}
+}*/
+
 /*
  * Class definitions
  */
@@ -51,6 +66,7 @@ button {
 }
 
 .delete {
+  color: #eee;
   display: inline-block;
   float: right;
   cursor: pointer;
@@ -70,7 +86,7 @@ button {
 }
 .hint {
   font-style: oblique;
-  color: #083;
+  color: #27AE60;
 }
 .hScope {
   height: 100%;
@@ -84,29 +100,38 @@ button {
 
 .menu-list li {
   font-weight: 300;
-  font-size: 1rem;
-  padding: 1rem 0.75rem;
-  border-top: 1px solid #dadada;
+  font-size: 1em;
+  padding: 1.5rem 1.5rem;
   cursor: pointer;
+  background: #95A5A6;
+  border-top: 2px solid #7F8C8D;
   
   transition: background-color 0.25s ease;
   -moz-transition: background-color 0.25s ease;
   -webkit-transition: background-color 0.25s ease;
   
   span{
-      font-size: 0.85rem;
+      font-size: 1em;
   }
   
   i{
     opacity: 0.2;
   }
   
+  &:first-child{
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      border-top-width: 0px;
+  }
+  
   &:last-child{
-      border-bottom: 1px solid #dadada;
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+      border-bottom: 5px solid #7F8C8D;
   }
   
   &:hover{
-      background: #eaeaea;
+      background: #7F8C8D;
   }
   
   &:hover i{
@@ -119,32 +144,19 @@ button {
 }
 
 .workspace-wrapper {
-  margin-left: 200px;
   height: 100%;
-  padding: 1rem;
-  background: #F4F4F4;
-  border-left: 7px solid #fafafa;
+  padding: 1em;
+  background: #FFF;
 }
 
-.green-button{
-    pointer: cursor;
-    background-color: #1F9A3D;
-    
-    &:hover{
-        background-color: #3FBA5D;
-    }
-}
 
 .workspace-bar{
-    background-color: #555;
-    border-top: 1px solid #333;
-    border-bottom: 4px solid #444;
-    padding: 1rem;
-    margin: 0rem -1rem 2rem -1rem;
+    background: #2C3E50;
+    padding: 1em;
+    margin: 0em -1em 2em -1em;
 }
 
 .workspace-form-footer{
-    border-top: 1px dotted #ccc;
     padding-top: 1rem;
     margin-top: 2rem;
     text-align: right;
@@ -152,11 +164,11 @@ button {
 
 header{
     position: relative;
-    margin-top: -1rem;
-    margin-left: -1rem;
-    margin-right: -1rem;
-    padding: 1rem;
-    background: #fdfdfd;
+    margin-top: -1em;
+    margin-left: -1em;
+    margin-right: -1em;
+    padding: 2em 1em;
+    background-color: #34495E;
   
     h1 {
         font-weight: 100;
@@ -165,7 +177,7 @@ header{
         position: relative;
         display: inline-block;
         padding-right: 10px;
-        color: #333;
+        color: #fff;
         
         span{
             color: #aaa;
@@ -179,9 +191,9 @@ header{
     position: absolute;
     top: 0;
     left: 0;
-    background: rgba(20,20,20,0.75);
+    background: rgb(44,62,80);
     color: #fff;
-    font-size: 2rem;
+    font-size: 2em;
     font-weight: 300;
     text-align: center;
     
@@ -195,33 +207,42 @@ header{
 }
 
 .no-workspace{
+    color: #BDC3C7;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 41em;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -173px;
+    margin-left: -370px;
+    
     h1{
         font-weight: normal;
-        font-size: 3.5rem;
         margin: 0 0 1rem 0;
     }
     
     .block{
-        font-size: 1rem;
+        font-size: 1em;
     }
 }
 
-label{
-    display: block;
-    color: #555;
-    font-size: 0.75rem;
-    margin-bottom: 0.25rem;
+.login-row{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -125px;
+    margin-left: -291.5px;
 }
 
 .login-title{
     font-size: 6rem;
     font-weight: normal;
-    margin-bottom: 1rem;
 }
 
 .login-button{
-    font-size: 1.25rem;
-    padding: 1rem;
+    //font-size: 1.25rem;
+    //padding: 1rem;
 }
 
 .workspace-iframe{
@@ -232,6 +253,4 @@ label{
 
 .panel{
     padding: 2rem;
-    background: #efefef;
-    margin: 0 -1rem;
 }
