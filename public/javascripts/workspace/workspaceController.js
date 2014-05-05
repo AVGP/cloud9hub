@@ -44,10 +44,12 @@ var WorkspaceCtrl = function($scope, $http, $timeout) {
 
   $scope.runWorkspace = function(name) {
     console.log(name);
-    $http.get('/workspace/' + name).success(function(data) {
+    var authUser = Math.random().toString(36).substring(2),
+        authPassword = Math.random().toString(36).substring(2);
+    $http.get('/workspace/' + name + '?username=' + authUser + '&password=' + authPassword).success(function(data) {
       console.log(data);
       $timeout(function() {
-        $scope.currentWorkspace.url = data.url;
+        $scope.currentWorkspace.url = data.url.replace(/^https:\/\//,'http://' + authUser + ':' + authPassword + '@');
         _sendKeepAlive();
       }, 2000);
 

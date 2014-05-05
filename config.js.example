@@ -5,3 +5,9 @@ exports.PERMITTED_USERS = false;
 // This restricts signup to the users alice and bob:
 //exports.PERMITTED_USERS = ['alice', 'bob'];
 exports.BASE_URL = 'http://localhost';
+// Add SSL Certificates to use Cloud9Hub over SSL
+//   (Cloud9 Workspaces will still be unsecured standard HTTP)
+//exports.SSL = {
+//  key: "/path/to/ssl.key",
+//  cert: "/path/to/ssl.pem"
+//};
