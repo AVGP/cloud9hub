@@ -5,12 +5,16 @@
 var express = require('express')
   , routes = require('./routes')
   , workspace = require('./routes/workspace')
+  , index = require('./routes/index')
   , fs = require('fs')
   , path = require('path')
   , http = require('http')
   , https = require('https')
   , path = require('path')
   , passport = require('passport')
+  , flash = require('connect-flash')
+  , helpers = require('view-helpers')
+  , consolidate = require('consolidate')
   , GithubStrategy = require('passport-github').Strategy;
 try {
   var config = require(__dirname + '/config.js');
@@ -19,14 +23,29 @@ try {
   process.exit(1);
 }
 
+// Load configurations
+// Set the node enviornment variable if not set before
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
 var app = express();
 
-var nextFreeWorkspacePort = 5000;
+app.set('showStackError', true);
+// cache=memory or swig dies in NODE_ENV=production
+app.locals.cache = 'memory';
+// Prettify HTML
+app.locals.pretty = true;
+
+app.set('nextFreeWorkspacePort', 5000);
+
+app.engine('html', consolidate.swig);
+
+// Start the app by listening on <port>
+var port = process.env.PORT || 3105;
 
 // all environments
-app.set('port', 3000);
+app.set('port', port);
+app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
 app.set('baseUrl', config.BASE_URL);
 app.set('runningWorkspaces', {});
 
@@ -54,26 +73,22 @@ passport.use(new GithubStrategy({
 
 //Middlewares
 app.use(express.favicon());
-app.use(express.logger('dev'));
+// Only use logger for development environment
+if (process.env.NODE_ENV === 'development') {
+    app.use(express.logger('dev'));
+}
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-app.use(express.cookieParser('your secret here'));
+app.use(express.cookieParser('cloud9hub secret'));
 app.use(express.session());
 // Initialize Passport!  Also use passport.session() middleware, to support
 // persistent login sessions (recommended).
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(function(req, res, next) {
-    if(/^\/workspace\/[^\/]+\/?$/.test(req.path)) {
-        req.nextFreePort = (nextFreeWorkspacePort++);
-        if(nextFreeWorkspacePort > 10000) {
-          nextFreeWorkspacePort = 5000;
-        }
-    }
-    next();
-});
+app.use(flash());
+// Dynamic helpers
+app.use(helpers('Cloud9Hub'));
 app.use(app.router);
-app.use(require('stylus').middleware(__dirname + '/public'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
@@ -93,12 +108,26 @@ app.get('/logout', function(req, res){
   req.logout();
   res.json('OK');
 });
-// API
-app.get('/workspace', ensureAuthenticated, workspace.list);
-app.post('/workspace', ensureAuthenticated, workspace.create);
-app.get('/workspace/:name', ensureAuthenticated, workspace.run);
-app.post('/workspace/:name/keepalive', ensureAuthenticated, workspace.keepAlive);
-app.delete('/workspace/:name', ensureAuthenticated, workspace.destroy);
+
+// Bootstrap routes
+var routes_path = __dirname + '/routes';
+var walk = function(path) {
+    fs.readdirSync(path).forEach(function(file) {
+        var newPath = path + '/' + file;
+        var stat = fs.statSync(newPath);
+        if (stat.isFile()) {
+            if (/(.*)\.(js$|coffee$)/.test(file)) {
+                require(newPath)(app, passport);
+            }
+        // We skip the app/routes/middlewares directory as it is meant to be
+        // used and shared by routes as further middlewares and is not a
+        // route by itself
+        } else if (stat.isDirectory() && file !== 'middlewares') {
+            walk(newPath);
+        }
+    });
+};
+walk(routes_path);
 
 var server;
 
@@ -126,10 +155,3 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
-
-
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
-  res.status(401);
-  res.json({msg: "Please login first!"});
-}

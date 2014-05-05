@@ -1,12 +1,57 @@
-<aside>
-  <p class="centered"><button class="topcoat-button--cta" ng-click="createWorkspace()">Create workspace</button></p>
-  <ul class="menu-list">
-    <li ng-repeat="workspace in workspaces" ng-class="{active: currentWorkspace.name == workspace.name}">
-      <a href="" title="DELETE this workspace irreversibly!" ng-click="deleteWorkspace(workspace.name)" class="delete">☠</a>
-      <a href="" ng-click="runWorkspace(workspace.name)">{{workspace.name}}</a>
-    </li>
-  </ul>
-</aside>
-<div class="workspace-wrapper">
-  <iframe class="workspace" src="{{currentWorkspace.url}}" width="100%" height="100%"></iframe>
+<div class='row dashboard-row'>
+    <aside class='col-xs-4 col-sm-3 col-md-3'>
+      <p class="centered">
+        <h1 class='bello'>Cloud9Hub</h1>
+        <button class="btn btn-block btn-lg btn-primary" ng-click="blankWorkspace()"><i class='fa fa-plus'></i>&nbsp;Create workspace</button>
+      </p>
+      <ul class="menu-list">
+        <li ng-click="runWorkspace(workspace.name)" ng-repeat="workspace in workspaces" ng-class="{active: currentWorkspace.name == workspace.name}">
+          <a href="" title="DELETE this workspace irreversibly!" ng-click="deleteWorkspace(workspace.name)" class="topcoat-icon-button--large delete"><i class='fa fa-trash-o'></i></a>
+          <span>{{workspace.name}}</span>
+        </li>
+      </ul>
+    </aside>
+    <div class="col-xs-8 col-sm-9 col-md-9 workspace-wrapper">
+        <section class='no-workspace' ng-show="!currentWorkspace">
+            <div class="block">
+              Welcome to Cloud9Hub.<br/>
+              This part of the screen is the <span class="hint">editor panel.</span><br/>
+              When you run a workspace, it will be started here.
+            </div>
+            <div class="block">
+              On the left you see the <span class="hint">workspace panel</span>.<br/>
+              You can create, delete or run workspaces there.<br/>
+            </div>
+            <div class="block">
+              To <strong>create</strong> a workspace, click the "Create workspace" button.<br/>
+              If you want to run a workspace, click on its name. The workspace will start automatically.<br/>
+              To delete a workspace, click the little "☠" to the right of a workspace item.
+            </div>
+        </section>
+        
+        <section class='workspace-details' ng-hide="!currentWorkspace || currentWorkspace.editing">
+            <header>
+                <h1 ng-show="currentWorkspace.name === ''">New Workspace</h1>
+                <h1><span ng-hide="!currentWorkspace.user">{{currentWorkspace.user}}&nbsp;/&nbsp;</span>{{currentWorkspace.name}}</h1>
+            </header>
+            <section class="workspace-bar" ng-hide="!currentWorkspace.url">
+                <a ng-click="startEditing()" class="btn btn-success">Start Editing</a>
+            </section>
+            <section class='workspace-form'>
+                <div class="form-group">
+                    <label>Workspace name</label>
+    	        	<input type="text" placeholder="Inactive" class="form-control" value="{{currentWorkspace.name}}" ng-model="currentWorkspace.name" placeholder="name" />
+            	</div>
+            </section>
+            <section class='workspace-form-footer' ng-hide="currentWorkspace.url">
+                <button class="btn btn-lg btn-default" ng-click="saveWorkspace()"><i class='fa fa-save'></i>&nbsp;Save</button>
+            </section>
+        </section>
+        
+        <section class='workspace-iframe' ng-hide="!currentWorkspace || !currentWorkspace.editing">
+            <iframe class="workspace" ng-src="{{iframeSrc}}" width="100%" height="100%"></iframe>
+        </section>
+        
+        <div class='loading-overlay' ng-show='loadingWorkspace'><span class='bello'>Loading...</span></div>
+    </div>
 </div>
