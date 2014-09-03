@@ -9,7 +9,7 @@ As I like the possibility to easily start working on different workspaces, creat
 
 ##What's Cloud9?
 A full-blown IDE in your browser. It has a full terminal integration, can run and deploy code of different languages (e.g. Ruby, node.js, PHP)
-and [lots more](https://c9.io/site/features/).
+and [lots more](http://en.wikipedia.org/wiki/Cloud9_IDE#Features).
 
 ##Status Quo of Cloud9Hub
 Right now it can
