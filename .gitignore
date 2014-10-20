@@ -1,8 +1,9 @@
+.vagrant
+.c9revisions
 workspaces/*
 node_modules
 config.js
 .bower-*/
 public/lib
-.c9revisions
 .settings
 public/css/*
