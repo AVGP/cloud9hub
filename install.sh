@@ -8,6 +8,7 @@ cd c9
 npm install
 npm install -g bower
 bower install
+scripts/install-sdk.sh
 cd ..
 
 echo "Success."
