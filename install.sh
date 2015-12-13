@@ -19,6 +19,7 @@ echo "-----------------------"
 git clone https://github.com/Harjot1Singh/cloud9hub.git cloud9hub
 cd cloud9hub
 npm install
+bower install
 echo "Success."
 
 echo "Last steps"
