@@ -50,7 +50,7 @@ app.set('nextFreeWorkspacePort', 3000);
 app.engine('html', consolidate.swig);
 
 // Start the app by listening on <port>
-var port = process.env.PORT || 3105;
+var port = process.env.PORT || 5000;
 
 // all environments
 app.set('port', port);
