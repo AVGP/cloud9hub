@@ -45,7 +45,7 @@ app.locals.cache = 'memory';
 // Prettify HTML
 app.locals.pretty = true;
 
-app.set('nextFreeWorkspacePort', 5000);
+app.set('nextFreeWorkspacePort', 3000);
 
 app.engine('html', consolidate.swig);
 
