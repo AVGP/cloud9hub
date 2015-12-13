@@ -146,9 +146,9 @@ exports.destroy = function(req, res) {
 
    if(typeof req.app.get('runningWorkspaces')[req.user + '/' + workspaceName] === 'undefined'){
        getNextAvailablePort(function(nextFreePort){
-            console.log("Starting " + __dirname + '/../../c9/bin/cloud9.sh for workspace ' + workspaceName + " on port " + nextFreePort);
-       
-            var workspace = spawn(__dirname + '/../../c9/bin/cloud9.sh', ['-w', __dirname + '/../workspaces/' + req.user + '/' + workspaceName, '-l', '0.0.0.0', '-p', nextFreePort], {detached: true});
+            console.log("Starting " + __dirname + '/../c9/server.js for workspace ' + workspaceName + " on port " + nextFreePort);
+      
+            var workspace = spawn('node ' + __dirname + '/../c9/server.js', ['-w', __dirname + '/../workspaces/' + req.user + '/' + workspaceName, '-l', '0.0.0.0', '-p', nextFreePort], {detached: true});
             workspace.stderr.on('data', function (data) {
                 console.log('stdERR: ' + data);
             });
