@@ -148,7 +148,7 @@ exports.destroy = function(req, res) {
        getNextAvailablePort(function(nextFreePort){
             console.log("Starting " + __dirname + '/../../c9/server.js for workspace ' + workspaceName + " on port " + nextFreePort);
       
-            var workspace = spawn('node ' + __dirname + '/../../c9/server.js', ['-w', __dirname + '/../workspaces/' + req.user + '/' + workspaceName, '--listen', '0.0.0.0', '-p', nextFreePort], {detached: true});
+            var workspace = spawn('node ' + __dirname + '/../../c9/server.js', ['-w', __dirname + '/../workspaces/' + req.user + '/' + workspaceName, '--listen', '0.0.0.0', '-p', nextFreePort, '-a', ':'], {detached: true});
             workspace.stderr.on('data', function (data) {
                 console.log('stdERR: ' + data);
             });
