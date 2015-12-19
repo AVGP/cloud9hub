@@ -1,4 +1,13 @@
 #/bin/sh
+echo "Installing Cloud9Hub..."
+echo "-----------------------"
+
+git clone https://github.com/Harjot1Singh/cloud9hub.git cloud9hub
+cd cloud9hub
+npm install
+npm install -g bower
+bower install
+echo "Success."
 
 echo "Installing Cloud9..."
 echo "-----------------------"
@@ -6,21 +15,11 @@ echo "-----------------------"
 git clone https://github.com/c9/core.git c9
 cd c9
 npm install
-npm install -g bower
 bower install
 scripts/install-sdk.sh
-cd ..
 
 echo "Success."
 echo ""
-echo "Installing Cloud9Hub..."
-echo "-----------------------"
-
-git clone https://github.com/Harjot1Singh/cloud9hub.git cloud9hub
-cd cloud9hub
-npm install
-bower install
-echo "Success."
 
 echo "Last steps"
 echo "-----------------------"
