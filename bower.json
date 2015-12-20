@@ -1,11 +1,11 @@
 {
   "name": "cloud9hub",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "dependencies": {
     "angular": "~1.2.15",
     "topcoat": "~0.8.0",
     "angular-route": "~1.2.15",
     "fontawesome": "~4.0.3",
-    "flat-ui-official": "~2.1.3"
+    "flat-ui": "~2.1.3"
   }
 }
