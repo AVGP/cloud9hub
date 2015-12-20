@@ -16,7 +16,8 @@ var WorkspaceCtrl = function($scope, $http, $timeout, $sce) {
   
   $scope.startEditing = function() {
     $scope.currentWorkspace.editing = true;
-    $scope.iframeSrc = $sce.trustAsResourceUrl($scope.currentWorkspace.url);
+    window.open($scope.currentWorkspace.url);
+    //$scope.iframeSrc = $sce.trustAsResourceUrl($scope.currentWorkspace.url);
   };
 
   var createWorkspace = function() {
