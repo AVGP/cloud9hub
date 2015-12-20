@@ -32,7 +32,7 @@ Then you can try the quick install or the manual way:
 ### Quick install
 
 ```shell
-curl https://raw.githubusercontent.com/AVGP/cloud9hub/master/install.sh | sh
+curl https://raw.githubusercontent.com/AVGP/cloud9hub/latest/install.sh | sh
 ```
 
 This should install Cloud9 and Cloud9Hub into the current folder. If this succeeded, you can now go to the configuration section.
